@@ -8,6 +8,10 @@ import {
 } from "react-router"
 import type { Route } from "./+types/root"
 import "./app.css"
+import Header from "./components/layout/Header"
+import { Provider } from "react-redux"
+import { store } from "./store/store"
+import { Container } from "react-bootstrap"
 
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -40,7 +44,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body>
-                <div id="wrapper">{children}</div>
+                <Provider store={store}>
+                    <div id="wrapper">
+                        <Header />
+                        <main className="grow shrink-0">{children}</main>
+                    </div>
+                </Provider>
                 <ScrollRestoration />
                 <Scripts />
             </body>
@@ -78,5 +87,13 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
                 </pre>
             )}
         </main>
+    )
+}
+
+export function HydrateFallback() {
+    return (
+        <section>
+            <Container>Loading...</Container>
+        </section>
     )
 }
