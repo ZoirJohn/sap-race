@@ -1,13 +1,12 @@
-import { Button, FormControl, InputGroup, Row, Stack } from "react-bootstrap"
+import { Stack } from "react-bootstrap"
+import UpdateForm from "./UpdateForm"
+import CreateForm from "./CreateForm"
 
 export default function Tools() {
     return (
-        <Stack direction="horizontal">
-            <Button>CREATE</Button>
-            <InputGroup className="grow-0">
-                <FormControl type="color" className="grow-0"></FormControl>
-            </InputGroup>
-            <Button variant="secondary">UPDATE</Button>
+        <Stack direction="horizontal" className="py-4">
+            <CreateForm />
+            <UpdateForm />
         </Stack>
     )
 }

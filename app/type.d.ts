@@ -1,4 +1,4 @@
-export type Car = {
+export type Racer = {
     id: number
     name: string
     color: string
