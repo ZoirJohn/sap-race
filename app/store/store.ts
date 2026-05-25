@@ -1,25 +1,34 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit"
-import type { Car } from "~/type"
+import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit"
+import type { Car, Winner } from "~/type"
 
-const counterSlice = createSlice({
-    name: "counter",
+const cars = createSlice({
+    name: "cars",
     initialState: {
-        cars: [] as Car[],
+        racers: [] as Car[],
+        racer: {} as Car,
+        winners: [] as Winner[],
     },
     reducers: {
-        add: (state, action: { payload: Car; type: string }) => {
-            state.cars.push(action.payload)
+        addRacers: (state, action: { payload: Car; type: string }) => {
+            state.racers.push(action.payload)
         },
-        remove: (state, action: { payload: Car; type: string }) => {
-            state.cars.pop()
+        removeRacers: (state, action: { payload: Car; type: string }) => {
+            state.racers.pop()
         },
-        set: (state, action: { payload: Car[]; type: string }) => {
-            state.cars = action.payload
+        setRacers: (state, action: { payload: Car[]; type: string }) => {
+            state.racers = action.payload
+        },
+        addWinners: (state, action: { payload: Winner; type: string }) => {
+            state.winners.push(action.payload)
+        },
+        setWinners: (state, action: { payload: Winner[]; type: string }) => {
+            state.winners = action.payload
         },
     },
 })
-export const { add, remove, set } = counterSlice.actions
+export const { addRacers, removeRacers, setRacers, addWinners, setWinners } =
+    cars.actions
 
 export const store = configureStore({
-    reducer: counterSlice.reducer,
+    reducer: combineReducers({ cars: cars.reducer }),
 })

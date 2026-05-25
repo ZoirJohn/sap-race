@@ -1,4 +1,4 @@
-import { add, remove, set, type store } from "~/store/store"
+import { setRacers, setWinners, type store } from "~/store/store"
 
 const url = (end: string) => import.meta.env.VITE_API_URL + end
 
@@ -8,10 +8,10 @@ export function fetchCars() {
         getState: typeof store.getState,
     ) {
         try {
-            if (getState().cars.length) return
+            if (getState().cars.racers.length) return
             const res = await fetch(url("/garage"))
             const data = await res.json()
-            dispatch(set(data))
+            dispatch(setRacers(data))
         } catch (error) {}
     }
 }
@@ -22,9 +22,22 @@ export function fetchCarById(id: string) {
         getState: typeof store.getState,
     ) {
         try {
-            const res = await fetch(id)
+            const res = await fetch(url("/garage/" + id))
             const data = await res.json()
-            dispatch(add(data))
+            // dispatch(add(data))
+        } catch (error) {}
+    }
+}
+
+export function fetchWinners() {
+    return async function fetchWinnersThunk(
+        dispatch: typeof store.dispatch,
+        getState: typeof store.getState,
+    ) {
+        try {
+            const res = await fetch(url("/winners"))
+            const data = await res.json()
+            dispatch(setWinners(data))
         } catch (error) {}
     }
 }
