@@ -5,6 +5,8 @@ import Stop from "../ui/Stop"
 import CarComponent from "../ui/Car"
 import { useDispatch } from "react-redux"
 import { fetchMovement } from "~/api/client"
+import Trash from "../ui/Trash"
+import Select from "../ui/Select"
 
 export default function Garage(props: { cars: Racer[] }) {
     const dispatch = useDispatch<RacersStoreDispatch>()
@@ -16,10 +18,10 @@ export default function Garage(props: { cars: Racer[] }) {
             {props.cars.map((car) => {
                 return (
                     <Col
-                        className="items-center flex sm:gap-4 gap-2"
+                        className="items-center flex sm:gap-4 gap-2 "
                         key={car.id}
                     >
-                        <div className="flex gap-2 max-md:flex-col">
+                        <div className="flex gap-2 max-md:flex-col max-w-31 flex-wrap">
                             <Button
                                 variant="light"
                                 className="flex items-center justify-center"
@@ -27,8 +29,14 @@ export default function Garage(props: { cars: Racer[] }) {
                             >
                                 <Key className="sm:size-8 size-6" />
                             </Button>
-                            <Button variant="danger">
+                            <Button variant="warning">
                                 <Stop className="sm:size-8 size-6 fill-white" />
+                            </Button>
+                            <Button variant="danger">
+                                <Trash />
+                            </Button>
+                            <Button>
+                                <Select />
                             </Button>
                         </div>
                         <div className="flex items-center">
