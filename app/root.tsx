@@ -11,7 +11,7 @@ import "./app.css"
 import { Provider, useDispatch } from "react-redux"
 import { store } from "./store/store"
 import { Container } from "react-bootstrap"
-import AppRoot from "./store/App"
+import AppRoot from "./App"
 
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
