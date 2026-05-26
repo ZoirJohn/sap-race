@@ -8,10 +8,10 @@ import {
 } from "react-router"
 import type { Route } from "./+types/root"
 import "./app.css"
-import Header from "./components/layout/Header"
-import { Provider } from "react-redux"
+import { Provider, useDispatch } from "react-redux"
 import { store } from "./store/store"
 import { Container } from "react-bootstrap"
+import AppRoot from "./store/App"
 
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -45,10 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <Provider store={store}>
-                    <div id="wrapper">
-                        <Header />
-                        <main className="grow shrink-0">{children}</main>
-                    </div>
+                    <AppRoot children={children} />
                 </Provider>
                 <ScrollRestoration />
                 <Scripts />

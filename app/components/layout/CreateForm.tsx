@@ -8,7 +8,7 @@ export default function CreateForm() {
                 <InputGroup className="max-w-20">
                     <FormControl type="color" className="grow-0"></FormControl>
                 </InputGroup>
-                <InputGroup className="">
+                <InputGroup>
                     <FormControl
                         type="text"
                         className="grow-0"
