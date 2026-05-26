@@ -3,12 +3,12 @@ import { Form } from "react-router"
 
 export default function CreateForm() {
     return (
-        <Form className="mr-auto">
+        <Form>
             <Stack direction="horizontal" gap={1}>
                 <InputGroup className="max-w-20">
                     <FormControl type="color" className="grow-0"></FormControl>
                 </InputGroup>
-                <InputGroup>
+                <InputGroup className="max-w-80">
                     <FormControl
                         type="text"
                         className="grow-0"

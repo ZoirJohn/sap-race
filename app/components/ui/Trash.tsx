@@ -1,6 +1,11 @@
 export default function Trash() {
     return (
-        <svg fill="white" viewBox="0 0 36 36" version="1.1" className="size-8">
+        <svg
+            fill="white"
+            viewBox="0 0 36 36"
+            version="1.1"
+            className="sm:size-8 size-4"
+        >
             <title>trash-line</title>
             <path
                 className="clr-i-outline clr-i-outline-path-1"

@@ -1,14 +1,13 @@
-export default function Key(props: { className: string }) {
+export default function Key() {
     return (
         <svg
-            fill="#000000"
             height="800px"
             width="800px"
             version="1.1"
             id="Capa_1"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 240.035 240.035"
-            className={props.className}
+            className="sm:size-8 size-4"
         >
             <g>
                 <path

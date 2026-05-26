@@ -21,16 +21,16 @@ export default function Garage(props: { cars: Racer[] }) {
                         className="items-center flex sm:gap-4 gap-2 "
                         key={car.id}
                     >
-                        <div className="flex gap-2 max-md:flex-col max-w-31 flex-wrap">
+                        <div className="flex gap-2 max-w-31 flex-wrap">
                             <Button
                                 variant="light"
                                 className="flex items-center justify-center"
                                 onClick={() => startEngine(String(car.id))}
                             >
-                                <Key className="sm:size-8 size-6" />
+                                <Key />
                             </Button>
                             <Button variant="warning">
-                                <Stop className="sm:size-8 size-6 fill-white" />
+                                <Stop />
                             </Button>
                             <Button variant="danger">
                                 <Trash />

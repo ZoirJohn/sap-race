@@ -9,7 +9,7 @@ export default function UpdateForm() {
                     <FormControl type="color" className="grow-0"></FormControl>
                 </InputGroup>
 
-                <InputGroup>
+                <InputGroup className="max-w-80">
                     <FormControl
                         type="number"
                         className="grow-0"

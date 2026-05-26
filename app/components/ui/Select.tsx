@@ -5,7 +5,8 @@ export default function Select() {
             id="Uploaded to svgrepo.com"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 32 32"
-            className="size-8"
+            className="sm:size-8 size-4"
+            fill="white"
         >
             <style type="text/css"></style>
             <path
