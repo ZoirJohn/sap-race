@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react"
 import { useDispatch } from "react-redux"
-import { fetchCars, fetchWinners } from "~/api/client"
+import { fetchRacers, fetchWinners } from "~/api/client"
 import Header from "~/components/layout/Header"
 import type { RacersStoreDispatch } from "./type"
 
@@ -8,7 +8,7 @@ export default function AppRoot(props: { children: ReactNode }) {
     const dispatch = useDispatch<RacersStoreDispatch>()
 
     useEffect(() => {
-        dispatch(fetchCars())
+        dispatch(fetchRacers())
         dispatch(fetchWinners())
     }, [])
     return (

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Container } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import Garage from "~/components/layout/Garage"
@@ -7,15 +8,16 @@ import type { store } from "~/store/store"
 import type { Racer } from "~/type"
 
 export default function Home() {
-    const cars = useSelector<ReturnType<typeof store.getState>>(
+    const [selected, setSelected] = useState<number | undefined>()
+    const racers = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.racers,
     )
 
     return (
         <section>
             <Container>
-                <Tools />
-                <Garage cars={cars as Racer[]} />
+                <Tools selected={selected} />
+                <Garage racers={racers as Racer[]} setSelected={setSelected} />
             </Container>
         </section>
     )

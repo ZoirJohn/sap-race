@@ -33,7 +33,7 @@ export default function Trash() {
                 className="clr-i-outline clr-i-outline-path-5"
                 d="M23,5.86H21.1V4H14.9V5.86H13V4a2,2,0,0,1,1.9-2h6.2A2,2,0,0,1,23,4Z"
             ></path>
-            <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
+            <rect x="0" y="0" width="36" height="36" fillOpacity="0" />
         </svg>
     )
 }
