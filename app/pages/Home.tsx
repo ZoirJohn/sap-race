@@ -15,7 +15,6 @@ export default function Home() {
     const movements = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.movements,
     ) as Movement[]
-    console.log(movements)
     return (
         <section>
             <Container>

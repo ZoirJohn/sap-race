@@ -45,6 +45,59 @@ export function fetchMovement(id: string, status: RacerStatus) {
     }
 }
 
+export function fetchAllMovements() {
+    return async function fetchAllMovementsThunk(
+        dispatch: RacersStoreDispatch,
+        getState: typeof store.getState,
+    ) {
+        try {
+            const notStarted = new Set()
+            for (const racer of getState().cars.racers) {
+                notStarted.add(racer.id)
+            }
+            for (const movement of getState().cars.movements) {
+                notStarted.delete(movement.id)
+            }
+
+            for (const id of notStarted) {
+                const url = new URL("/engine", import.meta.env.VITE_API_URL)
+                url.searchParams.set("id", id as string)
+                url.searchParams.set("status", "started")
+                const res = await fetch(url, { method: "PATCH" })
+                const data = await res.json()
+                dispatch(addMovements({ ...data, id }))
+            }
+        } catch (error) {}
+    }
+}
+export function deleteMovement(id: string, status: RacerStatus) {
+    return async function deleteMovementThunk(
+        dispatch: RacersStoreDispatch,
+        getState: typeof store.getState,
+    ) {
+        const url = new URL("/engine", import.meta.env.VITE_API_URL)
+        url.searchParams.set("id", id)
+        url.searchParams.set("status", status)
+        try {
+            const res = await fetch(url, { method: "PATCH" })
+            const data = await res.json()
+            dispatch(addMovements({ ...data, id: Number(id) }))
+        } catch (error) {}
+    }
+}
+
+export function deleteAllMovements() {
+    return async function deleteAllMovementsThunk(
+        dispatch: RacersStoreDispatch,
+        getState: typeof store.getState,
+    ) {
+        try {
+            for (const field of getState().cars.movements) {
+            }
+        } catch (error) {}
+    }
+}
+
 export function createCar(name: string, color: string) {
     return async function createCarThunk(
         dispatch: RacersStoreDispatch,

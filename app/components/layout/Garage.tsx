@@ -21,13 +21,11 @@ export default function Garage(props: {
     function removeCar(id: string) {
         dispatch(deleteCar(id))
     }
-
     return (
         <Stack className="py-4 relative" gap={4}>
             {props.racers.map((racer) => {
                 const data = props.movements.find((mov) => mov.id === racer.id)
                 const speed = data ? data.distance / data.velocity : 0
-                console.log(Math.floor(speed))
                 return (
                     <Col
                         className="flex items-center gap-2 sm:gap-4"
@@ -60,10 +58,11 @@ export default function Garage(props: {
                                 className={
                                     "block transition-[left] absolute left-0 ease-linear z-2" +
                                     " " +
-                                    (speed > 0
-                                        ? ` duration-[${speed}] left-full`
-                                        : "")
+                                    (speed > 0 ? ` left-full` : "")
                                 }
+                                style={{
+                                    transitionDuration: speed + "ms",
+                                }}
                             />
                             <p className="right-1/2 left-0 absolute w-full text-center text-2xl">
                                 {racer.name}
