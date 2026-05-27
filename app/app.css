@@ -13,3 +13,8 @@
     text-decoration: underline;
     text-underline-offset: 2px;
 }
+.checkered {
+    background-image: url("./assets/checkered.svg");
+    background-size: 148% ;
+    z-index: 1;
+}

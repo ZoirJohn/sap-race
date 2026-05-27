@@ -21,17 +21,17 @@ export default function Garage(props: {
     }
 
     return (
-        <Stack className="py-4" gap={4}>
+        <Stack className="py-4 relative" gap={4}>
             {props.racers.map((racer) => {
                 return (
                     <Col
-                        className="items-center flex sm:gap-4 gap-2 "
+                        className="flex items-center gap-2 sm:gap-4"
                         key={racer.id}
                     >
-                        <div className="flex gap-2 max-w-31 flex-wrap">
+                        <div className="flex flex-wrap gap-2 max-w-31">
                             <Button
                                 variant="light"
-                                className="flex items-center justify-center"
+                                className="flex justify-center items-center"
                                 onClick={() => startEngine(String(racer.id))}
                             >
                                 <Key />
@@ -49,13 +49,19 @@ export default function Garage(props: {
                                 <Select />
                             </Button>
                         </div>
-                        <div className="flex items-center">
-                            <CarComponent color={racer.color} />
-                            {racer.name}
+                        <div className="group relative flex items-center py-8 w-full">
+                            <CarComponent
+                                color={racer.color}
+                                className="block transition-all duration-2000 absolute group-hover:left-full left-0 ease-linear z-2"
+                            />
+                            <p className="right-1/2 left-0 absolute w-full text-center text-2xl">
+                                {racer.name}
+                            </p>
                         </div>
                     </Col>
                 )
             })}
+            <div className="right-0 w-20 h-[calc(100%-48px)] absolute top-6 checkered"></div>
         </Stack>
     )
 }
