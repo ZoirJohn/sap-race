@@ -38,13 +38,6 @@ export function fetchMovement(id: string, status: RacerStatus) {
         url.searchParams.set("id", id)
         url.searchParams.set("status", status)
         try {
-            if (
-                getState()
-                    .cars.movements.map((racer) => racer.id)
-                    .includes(Number(id))
-            ) {
-                return
-            }
             const res = await fetch(url, { method: "PATCH" })
             const data = await res.json()
             dispatch(addMovements({ ...data, id: Number(id) }))
