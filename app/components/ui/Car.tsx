@@ -11,8 +11,6 @@ export default function Car(props: Car) {
         <svg
             xmlns="http://www.w3.org/2000/svg"
             fill={props.color}
-            height="800px"
-            width="800px"
             version="1.1"
             id="car"
             viewBox="0 0 612.001 612.001"

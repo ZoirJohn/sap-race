@@ -9,6 +9,10 @@ const cars = createSlice({
         movements: [] as Movement[],
         racer: {} as Racer,
         error: "",
+        currentRacersPage: 1,
+        currentWinnersPage: 1,
+        racersPerPage: 7,
+        winnersPerPage: 10,
     },
     reducers: {
         addRacers: (state, action: { payload: Racer; type: string }) => {

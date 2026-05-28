@@ -26,7 +26,7 @@ export default function Garage(props: {
         dispatch(deleteCar(id))
     }
     return (
-        <Stack className="py-4 relative" gap={4}>
+        <Stack className="py-4 relative max-lg:overflow-hidden" gap={4}>
             {props.racers.map((racer) => {
                 const data = props.movements.find((mov) => mov.id === racer.id)
                 const speed = data?.velocity ? data.distance / data.velocity : 0
@@ -35,7 +35,7 @@ export default function Garage(props: {
                         className="flex items-center gap-2 sm:gap-4"
                         key={racer.id}
                     >
-                        <div className="flex flex-wrap gap-2 max-w-31">
+                        <div className="flex flex-wrap gap-2 sm:max-w-31 max-w-23">
                             <Button
                                 variant="light"
                                 className="flex justify-center items-center"
@@ -74,7 +74,9 @@ export default function Garage(props: {
                                 className={
                                     "block transition-[left] absolute left-0 ease-linear z-2" +
                                     " " +
-                                    (speed > 0 ? ` left-full` : "")
+                                    (speed > 0
+                                        ? ` md:left-full left-[calc(100%-64px)]`
+                                        : "")
                                 }
                                 style={{
                                     transitionDuration: speed + "ms",
@@ -87,7 +89,7 @@ export default function Garage(props: {
                     </Col>
                 )
             })}
-            <div className="right-0 w-20 h-[calc(100%-48px)] absolute top-6 checkered"></div>
+            <div className="right-0 max-sm:right-16 sm:w-20 w-10 h-[calc(100%-48px)] absolute top-6 checkered"></div>
         </Stack>
     )
 }
