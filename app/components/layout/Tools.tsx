@@ -3,18 +3,30 @@ import UpdateForm from "./UpdateForm"
 import CreateForm from "./CreateForm"
 import { useDispatch } from "react-redux"
 import type { RacersStoreDispatch } from "~/type"
-import { fetchAllMovements, fetchMovement } from "~/api/client"
+import {
+    deleteAllMovements,
+    fetchAllMovements,
+    fetchMovement,
+} from "~/api/client"
 import Key from "../ui/Key"
 import Stop from "../ui/Stop"
+import { useState } from "react"
 
 export default function Tools(props: { selected: number | undefined }) {
+    const [disabled, setDisabled] = useState(false)
+
     const dispatch = useDispatch<RacersStoreDispatch>()
     function startAllEngines() {
+        setDisabled(true)
         dispatch(fetchAllMovements())
+    }
+    function stopAllEngines() {
+        setDisabled(false)
+        dispatch(deleteAllMovements())
     }
     return (
         <Stack
-            className="top-0 sticky md:flex-row! justify-between py-1 md:py-4"
+            className="top-0 sticky md:flex-row! justify-between py-1 md:py-4! z-2"
             gap={2}
         >
             <CreateForm />
@@ -22,11 +34,12 @@ export default function Tools(props: { selected: number | undefined }) {
                 <Button
                     variant="light"
                     className="flex justify-center items-center"
-                    onClick={() => startAllEngines()}
+                    onClick={startAllEngines}
+                    disabled={disabled}
                 >
                     <Key />
                 </Button>
-                <Button variant="warning">
+                <Button variant="warning" onClick={stopAllEngines}>
                     <Stop />
                 </Button>
             </div>

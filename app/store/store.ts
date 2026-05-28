@@ -8,6 +8,7 @@ const cars = createSlice({
         winners: [] as Winner[],
         movements: [] as Movement[],
         racer: {} as Racer,
+        error: "",
     },
     reducers: {
         addRacers: (state, action: { payload: Racer; type: string }) => {
@@ -28,8 +29,14 @@ const cars = createSlice({
         addMovements: (state, action: { payload: Movement }) => {
             state.movements.push(action.payload)
         },
+        setMovements: (state, action: { payload: Movement[] }) => {
+            state.movements = action.payload
+        },
         setRacer: (state, action: { payload: Racer }) => {
             state.racer = action.payload
+        },
+        setError(state, action: { payload: string }) {
+            state.error = action.payload
         },
     },
 })
@@ -41,6 +48,8 @@ export const {
     setWinners,
     setRacer,
     addMovements,
+    setMovements,
+    setError,
 } = cars.actions
 
 export const store = configureStore({

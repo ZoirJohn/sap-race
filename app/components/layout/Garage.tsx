@@ -4,9 +4,10 @@ import Key from "../ui/Key"
 import Stop from "../ui/Stop"
 import CarComponent from "../ui/Car"
 import { useDispatch } from "react-redux"
-import { deleteCar, fetchMovement } from "~/api/client"
+import { deleteCar, deleteMovement, fetchMovement } from "~/api/client"
 import Trash from "../ui/Trash"
 import Select from "../ui/Select"
+import { useState } from "react"
 
 export default function Garage(props: {
     racers: Racer[]
@@ -14,18 +15,22 @@ export default function Garage(props: {
     setSelected: (id: number) => void
 }) {
     const dispatch = useDispatch<RacersStoreDispatch>()
-
+    const [disabled, setDisabled] = useState([-1])
     function startEngine(id: string) {
         dispatch(fetchMovement(id, "started"))
+    }
+    function stopEngine(id: string) {
+        dispatch(deleteMovement(id, "stopped"))
     }
     function removeCar(id: string) {
         dispatch(deleteCar(id))
     }
+    console.log(props.movements)
     return (
         <Stack className="py-4 relative" gap={4}>
             {props.racers.map((racer) => {
                 const data = props.movements.find((mov) => mov.id === racer.id)
-                const speed = data ? data.distance / data.velocity : 0
+                const speed = data?.velocity ? data.distance / data.velocity : 0
                 return (
                     <Col
                         className="flex items-center gap-2 sm:gap-4"
@@ -35,11 +40,23 @@ export default function Garage(props: {
                             <Button
                                 variant="light"
                                 className="flex justify-center items-center"
-                                onClick={() => startEngine(String(racer.id))}
+                                onClick={() => {
+                                    startEngine(String(racer.id))
+                                    setDisabled((prev) => [...prev, racer.id])
+                                }}
+                                disabled={disabled.includes(racer.id)}
                             >
                                 <Key />
                             </Button>
-                            <Button variant="warning">
+                            <Button
+                                variant="warning"
+                                onClick={() => {
+                                    stopEngine(String(racer.id))
+                                    setDisabled((prev) => [
+                                        ...prev.filter((id) => id !== racer.id),
+                                    ])
+                                }}
+                            >
                                 <Stop />
                             </Button>
                             <Button

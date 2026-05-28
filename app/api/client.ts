@@ -1,4 +1,11 @@
-import { addMovements, setRacers, setWinners, type store } from "~/store/store"
+import {
+    addMovements,
+    setError,
+    setMovements,
+    setRacers,
+    setWinners,
+    type store,
+} from "~/store/store"
 import type { RacersStoreDispatch, RacerStatus } from "~/type"
 
 export function fetchRacers() {
@@ -11,7 +18,11 @@ export function fetchRacers() {
             const res = await fetch(url)
             const data = await res.json()
             dispatch(setRacers(data))
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 
@@ -81,7 +92,13 @@ export function deleteMovement(id: string, status: RacerStatus) {
         try {
             const res = await fetch(url, { method: "PATCH" })
             const data = await res.json()
-            dispatch(addMovements({ ...data, id: Number(id) }))
+            dispatch(
+                setMovements([
+                    ...getState().cars.movements.filter(
+                        (mov) => mov.id !== Number(id),
+                    ),
+                ]),
+            )
         } catch (error) {}
     }
 }
@@ -92,7 +109,14 @@ export function deleteAllMovements() {
         getState: typeof store.getState,
     ) {
         try {
-            for (const field of getState().cars.movements) {
+            dispatch(setMovements([]))
+            for (const mov of getState().cars.movements) {
+                const url = new URL("/engine", import.meta.env.VITE_API_URL)
+                url.searchParams.set("id", String(mov.id) as string)
+                url.searchParams.set("status", "started")
+                const res = await fetch(url, { method: "PATCH" })
+                const data = await res.json()
+                dispatch(addMovements({ ...data, id: mov.id }))
             }
         } catch (error) {}
     }

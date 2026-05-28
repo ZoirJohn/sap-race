@@ -9,6 +9,7 @@ export default function CreateForm() {
     const dispatch = useDispatch<RacersStoreDispatch>()
     const colorField = useRef<HTMLInputElement>(null)
     const nameField = useRef<HTMLInputElement>(null)
+	
     function generateCar() {
         if (!!nameField.current?.value) {
             dispatch(
