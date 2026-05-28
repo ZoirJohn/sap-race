@@ -25,7 +25,6 @@ export default function Garage(props: {
     function removeCar(id: string) {
         dispatch(deleteCar(id))
     }
-    console.log(props.movements)
     return (
         <Stack className="py-4 relative" gap={4}>
             {props.racers.map((racer) => {

@@ -36,7 +36,11 @@ export function fetchWinners() {
             const res = await fetch(url)
             const data = await res.json()
             dispatch(setWinners(data))
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 
@@ -52,7 +56,11 @@ export function fetchMovement(id: string, status: RacerStatus) {
             const res = await fetch(url, { method: "PATCH" })
             const data = await res.json()
             dispatch(addMovements({ ...data, id: Number(id) }))
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 
@@ -78,7 +86,11 @@ export function fetchAllMovements() {
                 const data = await res.json()
                 dispatch(addMovements({ ...data, id }))
             }
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 export function deleteMovement(id: string, status: RacerStatus) {
@@ -99,7 +111,11 @@ export function deleteMovement(id: string, status: RacerStatus) {
                     ),
                 ]),
             )
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 
@@ -118,7 +134,11 @@ export function deleteAllMovements() {
                 const data = await res.json()
                 dispatch(addMovements({ ...data, id: mov.id }))
             }
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 
@@ -139,7 +159,11 @@ export function createCar(name: string, color: string) {
             })
             const data = await res.json()
             dispatch(fetchRacers())
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 export function updateCar(id: string, name: string, color: string) {
@@ -159,7 +183,11 @@ export function updateCar(id: string, name: string, color: string) {
             })
             const data = await res.json()
             dispatch(fetchRacers())
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
 export function deleteCar(id: string) {
@@ -174,6 +202,10 @@ export function deleteCar(id: string) {
             })
             const data = await res.json()
             dispatch(fetchRacers())
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }
