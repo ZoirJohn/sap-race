@@ -7,15 +7,17 @@ import { useDispatch } from "react-redux"
 import { deleteCar, deleteMovement, fetchMovement } from "~/api/client"
 import Trash from "../ui/Trash"
 import Select from "../ui/Select"
-import { useState } from "react"
+import { useState, type Dispatch, type SetStateAction } from "react"
 
 export default function Garage(props: {
     racers: Racer[]
     movements: Movement[]
     setSelected: (id: number) => void
+    disabled: number[]
+    setDisabled: Dispatch<SetStateAction<number[]>>
 }) {
     const dispatch = useDispatch<RacersStoreDispatch>()
-    const [disabled, setDisabled] = useState([-1])
+
     function startEngine(id: string) {
         dispatch(fetchMovement(id, "started"))
     }
@@ -41,9 +43,12 @@ export default function Garage(props: {
                                 className="flex justify-center items-center"
                                 onClick={() => {
                                     startEngine(String(racer.id))
-                                    setDisabled((prev) => [...prev, racer.id])
+                                    props.setDisabled(
+                                        (prev) =>
+                                            [...prev, racer.id] as number[],
+                                    )
                                 }}
-                                disabled={disabled.includes(racer.id)}
+                                disabled={props.disabled.includes(racer.id)}
                             >
                                 <Key />
                             </Button>
@@ -51,7 +56,7 @@ export default function Garage(props: {
                                 variant="warning"
                                 onClick={() => {
                                     stopEngine(String(racer.id))
-                                    setDisabled((prev) => [
+                                    props.setDisabled((prev) => [
                                         ...prev.filter((id) => id !== racer.id),
                                     ])
                                 }}

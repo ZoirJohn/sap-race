@@ -10,18 +10,25 @@ import {
 } from "~/api/client"
 import Key from "../ui/Key"
 import Stop from "../ui/Stop"
-import { useState } from "react"
+import { useState, type Dispatch, type SetStateAction } from "react"
 
-export default function Tools(props: { selected: number | undefined }) {
+export default function Tools(props: {
+    selected: number | undefined
+    disableAll: () => void
+    unDisableAll: () => void
+}) {
     const [disabled, setDisabled] = useState(false)
 
     const dispatch = useDispatch<RacersStoreDispatch>()
+
     function startAllEngines() {
         setDisabled(true)
+        props.disableAll()
         dispatch(fetchAllMovements())
     }
     function stopAllEngines() {
         setDisabled(false)
+        props.unDisableAll()
         dispatch(deleteAllMovements())
     }
     return (
