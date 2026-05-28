@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { Container } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import WinnersTable from "~/components/layout/WinnersTable"

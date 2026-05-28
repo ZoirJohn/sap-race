@@ -1,13 +1,6 @@
 import { Button, Stack } from "react-bootstrap"
 import UpdateForm from "./UpdateForm"
 import CreateForm from "./CreateForm"
-import { useDispatch } from "react-redux"
-import type { RacersStoreDispatch } from "~/type"
-import {
-    deleteAllMovements,
-    fetchAllMovements,
-    fetchMovement,
-} from "~/api/client"
 import Key from "../ui/Key"
 import Stop from "../ui/Stop"
 import { useState, type Dispatch, type SetStateAction } from "react"
@@ -16,21 +9,10 @@ export default function Tools(props: {
     selected: number | undefined
     disableAll: () => void
     unDisableAll: () => void
+    startAllEngines: () => void
+    stopAllEngines: () => void
 }) {
     const [disabled, setDisabled] = useState(false)
-
-    const dispatch = useDispatch<RacersStoreDispatch>()
-
-    function startAllEngines() {
-        setDisabled(true)
-        props.disableAll()
-        dispatch(fetchAllMovements())
-    }
-    function stopAllEngines() {
-        setDisabled(false)
-        props.unDisableAll()
-        dispatch(deleteAllMovements())
-    }
     return (
         <Stack
             className="top-0 sticky md:flex-row! justify-between py-1 md:py-4! z-2"
@@ -41,12 +23,12 @@ export default function Tools(props: {
                 <Button
                     variant="light"
                     className="flex justify-center items-center"
-                    onClick={startAllEngines}
+                    onClick={props.startAllEngines}
                     disabled={disabled}
                 >
                     <Key />
                 </Button>
-                <Button variant="warning" onClick={stopAllEngines}>
+                <Button variant="warning" onClick={props.stopAllEngines}>
                     <Stop />
                 </Button>
             </div>

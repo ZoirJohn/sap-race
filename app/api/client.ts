@@ -3,6 +3,7 @@ import {
     setError,
     setMovements,
     setRacers,
+    setWinner,
     setWinners,
     type store,
 } from "~/store/store"
@@ -87,6 +88,17 @@ export function fetchAllMovements() {
                 const data = await res.json()
                 racers.push({ ...data, id })
             }
+
+            const winner: Movement = [...racers].sort(
+                (a, b) => b.velocity - a.velocity,
+            )[0]
+            dispatch(
+                createWinner(
+                    String(winner.id),
+                    Math.floor(winner.distance / winner.velocity / 100),
+                ),
+            )
+            dispatch(setWinner(winner.id))
             dispatch(setMovements(racers))
         } catch (error) {
             if (error instanceof Error) {
@@ -212,6 +224,44 @@ export function deleteCar(id: string) {
     }
 }
 
-export function createWinner(id:string){
-	const url= new URL(id,import.meta.env.VITE_API_URL)
+export function createWinner(id: string, time: number) {
+    return async function createWinnerThunk(
+        dispatch: RacersStoreDispatch,
+        getState: typeof store.getState,
+    ) {
+        try {
+            const winner = getState().cars.winners.find(
+                (rac) => rac.id === Number(id),
+            )
+            if (winner) {
+                const url = new URL(
+                    "winners/" + id,
+                    import.meta.env.VITE_API_URL,
+                )
+                const res = await fetch(url, {
+                    headers: { "Content-Type": "application/json" },
+                    method: "PUT",
+                    body: JSON.stringify({
+                        wins: (winner?.wins || 0) + 1,
+                        time: winner?.time,
+                    }),
+                })
+            } else {
+                const url = new URL("winners", import.meta.env.VITE_API_URL)
+
+                const movement = getState().cars.movements.find(
+                    (mov) => mov.id === Number(id),
+                )
+                const res = await fetch(url, {
+                    headers: { "Content-Type": "application/json" },
+                    method: "POST",
+                    body: JSON.stringify({
+                        wins: 1,
+                        time: time,
+                        id: Number(id),
+                    }),
+                })
+            }
+        } catch (error) {}
+    }
 }

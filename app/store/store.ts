@@ -58,6 +58,7 @@ export const {
     addMovements,
     setMovements,
     setError,
+    setWinner,
 } = cars.actions
 
 export const store = configureStore({
