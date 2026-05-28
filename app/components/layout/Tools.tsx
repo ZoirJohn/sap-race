@@ -23,12 +23,21 @@ export default function Tools(props: {
                 <Button
                     variant="light"
                     className="flex justify-center items-center"
-                    onClick={props.startAllEngines}
+                    onClick={() => {
+                        props.startAllEngines()
+                        setDisabled(true)
+                    }}
                     disabled={disabled}
                 >
                     <Key />
                 </Button>
-                <Button variant="warning" onClick={props.stopAllEngines}>
+                <Button
+                    variant="warning"
+                    onClick={() => {
+                        props.stopAllEngines
+                        setDisabled(false)
+                    }}
+                >
                     <Stop />
                 </Button>
             </div>

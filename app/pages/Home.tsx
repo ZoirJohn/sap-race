@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Container } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteAllMovements, fetchAllMovements } from "~/api/client"
@@ -53,6 +53,11 @@ export default function Home() {
         unDisableAll()
         dispatch(deleteAllMovements())
     }
+    useEffect(() => {
+        return () => {
+            dispatch(deleteAllMovements())
+        }
+    }, [])
     return (
         <section>
             <Container>

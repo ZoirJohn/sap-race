@@ -262,6 +262,8 @@ export function createWinner(id: string, time: number) {
                     }),
                 })
             }
+
+            dispatch(fetchWinners())
         } catch (error) {}
     }
 }

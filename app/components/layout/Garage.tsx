@@ -12,7 +12,12 @@ import Key from "../ui/Key"
 import Stop from "../ui/Stop"
 import CarComponent from "../ui/Car"
 import { useDispatch } from "react-redux"
-import { deleteCar, deleteMovement, fetchMovement } from "~/api/client"
+import {
+    deleteAllMovements,
+    deleteCar,
+    deleteMovement,
+    fetchMovement,
+} from "~/api/client"
 import Trash from "../ui/Trash"
 import Select from "../ui/Select"
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react"
@@ -38,6 +43,7 @@ export default function Garage(props: {
     function removeCar(id: string) {
         dispatch(deleteCar(id))
     }
+
     useEffect(() => {
         if (props.winnerAnnouncementTimeout !== -1) {
             setTimeout(() => {

@@ -27,7 +27,10 @@ export default function WinnersTable(props: {
                     >
                         <Col>{racerData.id}</Col>
                         <Col>
-                            <Car color={racerData.color} className="size-10!" />
+                            <Car
+                                color={racerData.color}
+                                className="size-10!"
+                            />
                         </Col>
                         <Col>{racerData.name}</Col>
                         <Col>{racerData.wins}</Col>

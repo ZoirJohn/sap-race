@@ -3,7 +3,7 @@ import type { CSSProperties } from "react"
 interface Car {
     color: string
     className?: string
-    style: CSSProperties
+    style?: CSSProperties
 }
 
 export default function Car(props: Car) {
