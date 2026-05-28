@@ -13,6 +13,7 @@ const cars = createSlice({
         currentWinnersPage: 1,
         racersPerPage: 7,
         winnersPerPage: 10,
+        winnerId: -1,
     },
     reducers: {
         addRacers: (state, action: { payload: Racer; type: string }) => {
@@ -41,6 +42,9 @@ const cars = createSlice({
         },
         setError(state, action: { payload: string }) {
             state.error = action.payload
+        },
+        setWinner(state, action: { payload: number }) {
+            state.winnerId = action.payload
         },
     },
 })
