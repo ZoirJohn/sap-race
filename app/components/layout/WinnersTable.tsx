@@ -2,17 +2,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import type { Racer, Winner } from "~/type"
 import Car from "../ui/Car"
 
-export default function WinnersTable(props: {
-    winners: Winner[]
-    racers: Racer[]
-}) {
-    const data: (Winner & Racer)[] = props.winners.map((winner, idx) => ({
-        ...winner,
-        ...(props.racers.find((racer, idx) => racer.id === winner.id) || {
-            color: "",
-            name: "",
-        }),
-    }))
+export default function WinnersTable(props: { winners: (Winner & Racer)[] }) {
     return (
         <Container>
             <Row className="py-3 sm:text-2xl">
@@ -22,19 +12,19 @@ export default function WinnersTable(props: {
                 <Col>Wins</Col>
                 <Col>Best time</Col>
             </Row>
-            {data.map((racerData, idx) => {
+            {props.winners.map((winner, idx) => {
                 return (
                     <Row
                         className="sm:py-3 py-1 sm:text-xl items-center"
-                        key={racerData.id}
+                        key={winner.id}
                     >
-                        <Col>{racerData.id}</Col>
+                        <Col>{winner.id}</Col>
                         <Col>
-                            <Car color={racerData.color} className="size-10!" />
+                            <Car color={winner.color} className="size-10!" />
                         </Col>
-                        <Col>{racerData.name}</Col>
-                        <Col>{racerData.wins}</Col>
-                        <Col>{racerData.time}</Col>
+                        <Col>{winner.name}</Col>
+                        <Col>{winner.wins}</Col>
+                        <Col>{winner.time}</Col>
                     </Row>
                 )
             })}

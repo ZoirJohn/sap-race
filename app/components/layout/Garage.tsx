@@ -12,7 +12,12 @@ import Key from "../ui/Key"
 import Stop from "../ui/Stop"
 import CarComponent from "../ui/Car"
 import { useDispatch } from "react-redux"
-import { deleteCar, deleteMovement, fetchMovement } from "~/api/client"
+import {
+    deleteCar,
+    deleteMovement,
+    deleteWinner,
+    fetchMovement,
+} from "~/api/client"
 import Trash from "../ui/Trash"
 import Select from "../ui/Select"
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react"
@@ -39,6 +44,7 @@ export default function Garage(props: {
     }
     function removeCar(id: number) {
         dispatch(deleteCar(id))
+        dispatch(deleteWinner(id))
     }
 
     useEffect(() => {
@@ -149,9 +155,7 @@ export default function Garage(props: {
                     </ModalHeader>
                     <ModalBody>
                         <div className="flex items-center flex-col justify-center">
-                            <CarComponent
-                                color={props.winner.color}
-                            />
+                            <CarComponent color={props.winner.color} />
                             {props.winner.name}
                         </div>
                     </ModalBody>

@@ -7,17 +7,11 @@ import type { Racer, Winner } from "~/type"
 export default function Winners() {
     const winners = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.winners,
-    )
-    const racers = useSelector<ReturnType<typeof store.getState>>(
-        (state) => state.cars.racers,
-    )
+    ) as (Winner & Racer)[]
     return (
         <section>
             <Container>
-                <WinnersTable
-                    winners={winners as Winner[]}
-                    racers={racers as Racer[]}
-                />
+                <WinnersTable winners={winners} />
             </Container>
         </section>
     )
