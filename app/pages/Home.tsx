@@ -7,6 +7,7 @@ import Tools from "~/components/layout/Tools"
 
 import type { store } from "~/store/store"
 import type { Movement, Racer, RacersStoreDispatch } from "~/type"
+import findWinnerCar from "~/utils/findWinnerCar"
 
 export default function Home() {
     const [selected, setSelected] = useState<number | undefined>()
@@ -17,19 +18,15 @@ export default function Home() {
     const racers = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.racers,
     ) as Racer[]
-
     const movements = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.movements,
     ) as Movement[]
-
     const winnerId = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.winnerId,
-    )
-
+    ) as number
     const winner = useMemo(() => {
-        return racers.find((rac) => rac.id === winnerId)
+        return findWinnerCar(winnerId, racers)
     }, [winnerId])
-
     const winnerAnnouncementTimeout = useMemo(() => {
         return (
             movements
@@ -37,6 +34,9 @@ export default function Home() {
                 .sort((a, b) => b - a)[0] || -1
         )
     }, [movements])
+    const isWinnerAnnounced = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.isWinnerAnnounced,
+    ) as boolean
 
     const disableAll = () => {
         setDisabled(racers.map((racer) => racer.id))
@@ -53,11 +53,7 @@ export default function Home() {
         unDisableAll()
         dispatch(deleteAllMovements())
     }
-    useEffect(() => {
-        return () => {
-            dispatch(deleteAllMovements())
-        }
-    }, [])
+	
     return (
         <section>
             <Container>
@@ -78,6 +74,7 @@ export default function Home() {
                         winnerAnnouncementTimeout,
                     )}
                     winner={winner}
+                    isWinnerAnnounced={isWinnerAnnounced}
                 />
             </Container>
         </section>

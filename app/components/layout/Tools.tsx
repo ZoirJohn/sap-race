@@ -34,7 +34,7 @@ export default function Tools(props: {
                 <Button
                     variant="warning"
                     onClick={() => {
-                        props.stopAllEngines
+                        props.stopAllEngines()
                         setDisabled(false)
                     }}
                 >

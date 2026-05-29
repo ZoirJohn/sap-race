@@ -13,7 +13,7 @@ export default function UpdateForm(props: { selected: number | undefined }) {
         if (props.selected) {
             dispatch(
                 updateCar(
-                    String(props.selected),
+                    props.selected,
                     nameField.current?.value!,
                     colorField.current?.value!,
                 ),

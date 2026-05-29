@@ -1,6 +1,6 @@
 import {
-    addMovements,
     setError,
+    setIsWinnerAnnounced,
     setMovements,
     setRacers,
     setWinner,
@@ -8,12 +8,10 @@ import {
     type store,
 } from "~/store/store"
 import type { Movement, RacersStoreDispatch, RacerStatus } from "~/type"
+import findWinnerMovement from "~/utils/findWinnerMovement"
 
 export function fetchRacers() {
-    return async function fetchRacersThunk(
-        dispatch: RacersStoreDispatch,
-        getState: typeof store.getState,
-    ) {
+    return async function fetchRacersThunk(dispatch: RacersStoreDispatch) {
         const url = new URL("/garage", import.meta.env.VITE_API_URL)
         try {
             const res = await fetch(url)
@@ -28,10 +26,7 @@ export function fetchRacers() {
 }
 
 export function fetchWinners() {
-    return async function fetchWinnersThunk(
-        dispatch: RacersStoreDispatch,
-        getState: typeof store.getState,
-    ) {
+    return async function fetchWinnersThunk(dispatch: RacersStoreDispatch) {
         const url = new URL("/winners", import.meta.env.VITE_API_URL)
         try {
             const res = await fetch(url)
@@ -45,18 +40,23 @@ export function fetchWinners() {
     }
 }
 
-export function fetchMovement(id: string, status: RacerStatus) {
+export function fetchMovement(id: number, status: RacerStatus) {
     return async function fetchMovementThunk(
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
         const url = new URL("/engine", import.meta.env.VITE_API_URL)
-        url.searchParams.set("id", id)
+        url.searchParams.set("id", String(id))
         url.searchParams.set("status", status)
         try {
             const res = await fetch(url, { method: "PATCH" })
             const data = await res.json()
-            dispatch(addMovements({ ...data, id: Number(id) }))
+            dispatch(
+                setMovements([
+                    ...getState().cars.movements.filter((mov) => mov.id !== id),
+                    { ...data, id },
+                ]),
+            )
         } catch (error) {
             if (error instanceof Error) {
                 dispatch(setError(error.message))
@@ -79,27 +79,25 @@ export function fetchAllMovements() {
                 notStarted.delete(movement.id)
             }
 
-            const racers: Movement[] = []
+            const movements: Movement[] = []
             for (const id of notStarted) {
                 const url = new URL("/engine", import.meta.env.VITE_API_URL)
                 url.searchParams.set("id", id as string)
                 url.searchParams.set("status", "started")
                 const res = await fetch(url, { method: "PATCH" })
                 const data = await res.json()
-                racers.push({ ...data, id })
+                movements.push({ ...data, id })
             }
 
-            const winner: Movement = [...racers].sort(
-                (a, b) => b.velocity - a.velocity,
-            )[0]
+            const winner = findWinnerMovement(movements)
             dispatch(
                 createWinner(
-                    String(winner.id),
+                    winner.id,
                     Math.floor(winner.distance / winner.velocity / 100),
                 ),
             )
             dispatch(setWinner(winner.id))
-            dispatch(setMovements(racers))
+            dispatch(setMovements(movements))
         } catch (error) {
             if (error instanceof Error) {
                 dispatch(setError(error.message))
@@ -107,22 +105,20 @@ export function fetchAllMovements() {
         }
     }
 }
-export function deleteMovement(id: string, status: RacerStatus) {
+export function deleteMovement(id: number, status: RacerStatus) {
     return async function deleteMovementThunk(
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
         const url = new URL("/engine", import.meta.env.VITE_API_URL)
-        url.searchParams.set("id", id)
+        url.searchParams.set("id", String(id))
         url.searchParams.set("status", status)
         try {
             const res = await fetch(url, { method: "PATCH" })
             const data = await res.json()
             dispatch(
                 setMovements([
-                    ...getState().cars.movements.filter(
-                        (mov) => mov.id !== Number(id),
-                    ),
+                    ...getState().cars.movements.filter((mov) => mov.id !== id),
                 ]),
             )
         } catch (error) {
@@ -139,14 +135,16 @@ export function deleteAllMovements() {
         getState: typeof store.getState,
     ) {
         try {
+            const movements = getState().cars.movements
             dispatch(setMovements([]))
-            for (const mov of getState().cars.movements) {
+            dispatch(setIsWinnerAnnounced(false))
+            dispatch(setWinner(-1))
+            for (const mov of movements) {
                 const url = new URL("/engine", import.meta.env.VITE_API_URL)
                 url.searchParams.set("id", String(mov.id) as string)
                 url.searchParams.set("status", "started")
                 const res = await fetch(url, { method: "PATCH" })
                 const data = await res.json()
-                dispatch(addMovements({ ...data, id: mov.id }))
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -180,7 +178,7 @@ export function createCar(name: string, color: string) {
         }
     }
 }
-export function updateCar(id: string, name: string, color: string) {
+export function updateCar(id: number, name: string, color: string) {
     return async function updateCarThunk(
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
@@ -204,8 +202,8 @@ export function updateCar(id: string, name: string, color: string) {
         }
     }
 }
-export function deleteCar(id: string) {
-    return async function updateCarThunk(
+export function deleteCar(id: number) {
+    return async function deleteCarThunk(
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
@@ -224,7 +222,7 @@ export function deleteCar(id: string) {
     }
 }
 
-export function createWinner(id: string, time: number) {
+export function createWinner(id: number, time: number) {
     return async function createWinnerThunk(
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
@@ -238,7 +236,8 @@ export function createWinner(id: string, time: number) {
                     "winners/" + id,
                     import.meta.env.VITE_API_URL,
                 )
-                const res = await fetch(url, {
+
+                await fetch(url, {
                     headers: { "Content-Type": "application/json" },
                     method: "PUT",
                     body: JSON.stringify({
@@ -249,16 +248,13 @@ export function createWinner(id: string, time: number) {
             } else {
                 const url = new URL("winners", import.meta.env.VITE_API_URL)
 
-                const movement = getState().cars.movements.find(
-                    (mov) => mov.id === Number(id),
-                )
-                const res = await fetch(url, {
+                await fetch(url, {
                     headers: { "Content-Type": "application/json" },
                     method: "POST",
                     body: JSON.stringify({
                         wins: 1,
                         time: time,
-                        id: Number(id),
+                        id,
                     }),
                 })
             }

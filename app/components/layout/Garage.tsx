@@ -12,15 +12,11 @@ import Key from "../ui/Key"
 import Stop from "../ui/Stop"
 import CarComponent from "../ui/Car"
 import { useDispatch } from "react-redux"
-import {
-    deleteAllMovements,
-    deleteCar,
-    deleteMovement,
-    fetchMovement,
-} from "~/api/client"
+import { deleteCar, deleteMovement, fetchMovement } from "~/api/client"
 import Trash from "../ui/Trash"
 import Select from "../ui/Select"
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react"
+import { setIsWinnerAnnounced } from "~/store/store"
 
 export default function Garage(props: {
     racers: Racer[]
@@ -30,27 +26,33 @@ export default function Garage(props: {
     setDisabled: Dispatch<SetStateAction<number[]>>
     winnerAnnouncementTimeout: number
     winner: Racer | undefined
+    isWinnerAnnounced: boolean
 }) {
-    const [announced, setAnnounced] = useState(false)
+    const [show, setShow] = useState(false)
     const dispatch = useDispatch<RacersStoreDispatch>()
 
-    function startEngine(id: string) {
+    function startEngine(id: number) {
         dispatch(fetchMovement(id, "started"))
     }
-    function stopEngine(id: string) {
+    function stopEngine(id: number) {
         dispatch(deleteMovement(id, "stopped"))
     }
-    function removeCar(id: string) {
+    function removeCar(id: number) {
         dispatch(deleteCar(id))
     }
 
     useEffect(() => {
-        if (props.winnerAnnouncementTimeout !== -1) {
+        if (
+            props.winnerAnnouncementTimeout !== -1 &&
+            !props.isWinnerAnnounced
+        ) {
             setTimeout(() => {
-                setAnnounced(true)
+				setShow(true)
+                dispatch(setIsWinnerAnnounced(true))
             }, props.winnerAnnouncementTimeout)
         }
     }, [props.winnerAnnouncementTimeout])
+
     return (
         <>
             <Stack className="py-4 relative max-lg:overflow-hidden" gap={4}>
@@ -71,7 +73,7 @@ export default function Garage(props: {
                                     variant="light"
                                     className="flex justify-center items-center"
                                     onClick={() => {
-                                        startEngine(String(racer.id))
+                                        startEngine(racer.id)
                                         props.setDisabled(
                                             (prev) =>
                                                 [...prev, racer.id] as number[],
@@ -84,7 +86,7 @@ export default function Garage(props: {
                                 <Button
                                     variant="warning"
                                     onClick={() => {
-                                        stopEngine(String(racer.id))
+                                        stopEngine(racer.id)
                                         props.setDisabled((prev) => [
                                             ...prev.filter(
                                                 (id) => id !== racer.id,
@@ -96,7 +98,7 @@ export default function Garage(props: {
                                 </Button>
                                 <Button
                                     variant="danger"
-                                    onClick={() => removeCar(String(racer.id))}
+                                    onClick={() => removeCar(racer.id)}
                                 >
                                     <Trash />
                                 </Button>
@@ -131,8 +133,8 @@ export default function Garage(props: {
             </Stack>
             {props.winner && (
                 <Modal
-                    show={announced}
-                    onHide={() => setAnnounced(false)}
+                    show={props.isWinnerAnnounced && show}
+                    onHide={() => setShow(false)}
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered

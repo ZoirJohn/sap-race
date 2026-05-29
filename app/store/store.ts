@@ -14,25 +14,14 @@ const cars = createSlice({
         racersPerPage: 7,
         winnersPerPage: 10,
         winnerId: -1,
+        isWinnerAnnounced: false,
     },
     reducers: {
-        addRacers: (state, action: { payload: Racer; type: string }) => {
-            state.racers.push(action.payload)
-        },
-        removeRacers: (state, action: { payload: Racer; type: string }) => {
-            state.racers.pop()
-        },
         setRacers: (state, action: { payload: Racer[]; type: string }) => {
             state.racers = action.payload
         },
-        addWinners: (state, action: { payload: Winner; type: string }) => {
-            state.winners.push(action.payload)
-        },
         setWinners: (state, action: { payload: Winner[]; type: string }) => {
             state.winners = action.payload
-        },
-        addMovements: (state, action: { payload: Movement }) => {
-            state.movements.push(action.payload)
         },
         setMovements: (state, action: { payload: Movement[] }) => {
             state.movements = action.payload
@@ -40,25 +29,25 @@ const cars = createSlice({
         setRacer: (state, action: { payload: Racer }) => {
             state.racer = action.payload
         },
-        setError(state, action: { payload: string }) {
+        setError: (state, action: { payload: string }) => {
             state.error = action.payload
         },
-        setWinner(state, action: { payload: number }) {
+        setWinner: (state, action: { payload: number }) => {
             state.winnerId = action.payload
+        },
+        setIsWinnerAnnounced: (state, action: { payload: boolean }) => {
+            state.isWinnerAnnounced = action.payload
         },
     },
 })
 export const {
-    addRacers,
-    removeRacers,
     setRacers,
-    addWinners,
     setWinners,
     setRacer,
-    addMovements,
     setMovements,
     setError,
     setWinner,
+    setIsWinnerAnnounced,
 } = cars.actions
 
 export const store = configureStore({
