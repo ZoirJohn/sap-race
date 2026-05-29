@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react"
 import { Container } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { deleteAllMovements, fetchAllMovements } from "~/api/client"
-import Garage from "~/components/layout/Garage"
-import Tools from "~/components/layout/Tools"
+import Garage from "~/components/Garage"
+import Tools from "~/components/Tools"
 
 import type { store } from "~/store/store"
 import type { Movement, Racer, RacersStoreDispatch } from "~/type"
@@ -26,8 +26,8 @@ export default function Home() {
     ) as number
     const winner = useMemo(() => {
         return findWinnerCar(winnerId, racers)
-    }, [winnerId,racers])
-	
+    }, [winnerId, racers])
+
     const winnerAnnouncementTimeout = useMemo(() => {
         return (
             movements
@@ -54,7 +54,7 @@ export default function Home() {
         unDisableAll()
         dispatch(deleteAllMovements())
     }
-	
+
     return (
         <section>
             <Container>

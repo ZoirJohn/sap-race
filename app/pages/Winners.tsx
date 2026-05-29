@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap"
 import { useSelector } from "react-redux"
-import WinnersTable from "~/components/layout/WinnersTable"
+import WinnersTable from "~/components/WinnersTable"
 import type { store } from "~/store/store"
 import type { Racer, Winner } from "~/type"
 
