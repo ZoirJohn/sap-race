@@ -4,6 +4,7 @@ import {
     setMovements,
     setRacers,
     setTotalRacers,
+    setTotalWinners,
     setWinner,
     setWinners,
     type store,
@@ -69,6 +70,11 @@ export function fetchWinners() {
                     winners.push({ ...winner, ...winnersData })
                 }
             }
+            dispatch(
+                setTotalWinners(
+                    (Number(res.headers.get("X-Total-Count")) || 0) as number,
+                ),
+            )
             dispatch(setWinners(winners))
         } catch (error) {
             if (error instanceof Error) {

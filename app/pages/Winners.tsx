@@ -8,6 +8,10 @@ export default function Winners() {
     const winners = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.winners,
     ) as (Winner & Racer)[]
+
+    const totalWinners = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.totalRacers,
+    )
     return (
         <section>
             <Container>

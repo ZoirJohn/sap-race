@@ -16,6 +16,7 @@ const cars = createSlice({
         winnerId: -1,
         isWinnerAnnounced: false,
         totalRacers: 0,
+        totalWinners: 0,
     },
     reducers: {
         setRacers: (state, action: { payload: Racer[]; type: string }) => {
@@ -45,6 +46,15 @@ const cars = createSlice({
         setTotalRacers: (state, action: { payload: number }) => {
             state.totalRacers = action.payload
         },
+        setTotalWinners: (state, action: { payload: number }) => {
+            state.totalWinners = action.payload
+        },
+        setCurrentRacersPage: (state, action: { payload: number }) => {
+            state.currentRacersPage = action.payload
+        },
+        setCurrentWinnersPage: (state, action: { payload: number }) => {
+            state.currentWinnersPage = action.payload
+        },
     },
 })
 export const {
@@ -56,6 +66,9 @@ export const {
     setWinner,
     setIsWinnerAnnounced,
     setTotalRacers,
+    setTotalWinners,
+    setCurrentRacersPage,
+    setCurrentWinnersPage,
 } = cars.actions
 
 export const store = configureStore({

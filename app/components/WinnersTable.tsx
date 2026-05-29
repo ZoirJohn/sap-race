@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap"
 import type { Racer, Winner } from "~/type"
-import Car from "../ui/Car"
+import Car from "./ui/Car"
 
 export default function WinnersTable(props: { winners: (Winner & Racer)[] }) {
     return (

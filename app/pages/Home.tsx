@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useState } from "react"
-import { Container } from "react-bootstrap"
+import { useMemo, useState } from "react"
+import { Container, PageItem, Pagination } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
-import { deleteAllMovements, fetchAllMovements } from "~/api/client"
+import {
+    deleteAllMovements,
+    fetchAllMovements,
+    fetchRacers,
+} from "~/api/client"
 import Garage from "~/components/Garage"
 import Tools from "~/components/Tools"
 
-import type { store } from "~/store/store"
+import { setCurrentRacersPage, type store } from "~/store/store"
 import type { Movement, Racer, RacersStoreDispatch } from "~/type"
 import findWinnerCar from "~/utils/findWinnerCar"
 
@@ -21,6 +25,15 @@ export default function Home() {
     const movements = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.movements,
     ) as Movement[]
+    const currentRacersPage = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.currentRacersPage,
+    )
+    const totalRacers = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.totalRacers,
+    ) as number
+    const racersPerPage = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.racersPerPage,
+    ) as number
     const winnerId = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.winnerId,
     ) as number
@@ -45,12 +58,11 @@ export default function Home() {
     const unDisableAll = () => {
         setDisabled([-1])
     }
-
-    function startAllEngines() {
+    const startAllEngines = () => {
         disableAll()
         dispatch(fetchAllMovements())
     }
-    function stopAllEngines() {
+    const stopAllEngines = () => {
         unDisableAll()
         dispatch(deleteAllMovements())
     }
@@ -77,6 +89,22 @@ export default function Home() {
                     winner={winner}
                     isWinnerAnnounced={isWinnerAnnounced}
                 />
+                <Pagination>
+                    {new Array(Math.ceil(totalRacers / racersPerPage))
+                        .fill(0)
+                        .map((_, i) => (
+                            <PageItem
+                                active={i + 1 === currentRacersPage}
+                                key={i}
+                                onClick={() => {
+                                    dispatch(setCurrentRacersPage(i + 1))
+                                    dispatch(fetchRacers())
+                                }}
+                            >
+                                {i + 1}
+                            </PageItem>
+                        ))}
+                </Pagination>
             </Container>
         </section>
     )

@@ -1,8 +1,8 @@
 import { Button, Stack } from "react-bootstrap"
 import UpdateForm from "./UpdateForm"
 import CreateForm from "./CreateForm"
-import Key from "../ui/Key"
-import Stop from "../ui/Stop"
+import Key from "./ui/Key"
+import Stop from "./ui/Stop"
 import { useState, type Dispatch, type SetStateAction } from "react"
 
 export default function Tools(props: {
