@@ -44,7 +44,7 @@ export default function Home() {
     const winnerAnnouncementTimeout = useMemo(() => {
         return (
             movements
-                .map((mov) => mov.distance / mov.velocity)
+                .map((movement) => movement.distance / movement.velocity)
                 .sort((a, b) => b - a)[0] || -1
         )
     }, [movements])

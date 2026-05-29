@@ -70,7 +70,7 @@ export default function Garage(props: {
                 {props.racers.length ? (
                     props.racers.map((racer) => {
                         const data = props.movements.find(
-                            (mov) => mov.id === racer.id,
+                            (movement) => movement.id === racer.id,
                         )
                         const speed = data?.velocity
                             ? data.distance / data.velocity

@@ -1,18 +1,29 @@
-import { Col, Container, Row } from "react-bootstrap"
-import type { Racer, Winner } from "~/type"
+import { Button, Col, Container, Row } from "react-bootstrap"
+import type { Order, Racer, Sort, Winner } from "~/type"
 import Car from "./ui/Car"
+import { useState } from "react"
 
-export default function WinnersTable(props: { winners: (Winner & Racer)[] }) {
+export default function WinnersTable(props: {
+    winners: (Winner & Racer)[]
+    sort: Sort
+    order: Order
+}) {
     return (
         <Container>
-            <Row className="py-3 sm:text-2xl">
-                <Col>#</Col>
+            <Row className="py-3 sm:text-2xl flex items-center">
+                <Col id={"id"}>
+                    <Button variant="outline-primary">#</Button>
+                </Col>
                 <Col>Car</Col>
                 <Col>Name</Col>
-                <Col>Wins</Col>
-                <Col>Best time</Col>
+                <Col id={"wins"}>
+                    <Button variant="outline-primary">Wins</Button>
+                </Col>
+                <Col id={"time"}>
+                    <Button variant="outline-primary">Time</Button>
+                </Col>
             </Row>
-            {props.winners.map((winner, idx) => {
+            {props.winners.map((winner) => {
                 return (
                     <Row
                         className="sm:py-3 py-1 sm:text-xl items-center"

@@ -107,7 +107,9 @@ export function fetchMovement(id: number, status: RacerStatus) {
             const data = await res.json()
             dispatch(
                 setMovements([
-                    ...getState().cars.movements.filter((mov) => mov.id !== id),
+                    ...getState().cars.movements.filter(
+                        (movement) => movement.id !== id,
+                    ),
                     { ...data, id },
                 ]),
             )
@@ -170,7 +172,9 @@ export function deleteMovement(id: number, status: RacerStatus) {
         try {
             dispatch(
                 setMovements([
-                    ...getState().cars.movements.filter((mov) => mov.id !== id),
+                    ...getState().cars.movements.filter(
+                        (movement) => movement.id !== id,
+                    ),
                 ]),
             )
             await fetch(url, { method: "PATCH" })
@@ -192,9 +196,9 @@ export function deleteAllMovements() {
             dispatch(setMovements([]))
             dispatch(setIsWinnerAnnounced(false))
             dispatch(setWinner(-1))
-            for (const mov of movements) {
+            for (const movement of movements) {
                 const url = new URL("engine", import.meta.env.VITE_API_URL)
-                url.searchParams.set("id", String(mov.id) as string)
+                url.searchParams.set("id", String(movement.id) as string)
                 url.searchParams.set("status", "stopped")
                 await fetch(url, { method: "PATCH" })
             }
