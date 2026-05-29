@@ -57,10 +57,20 @@ export async function fetchRacer(id: number) {
 }
 
 export function fetchWinners() {
-    return async function fetchWinnersThunk(dispatch: RacersStoreDispatch) {
-        const winnersUrl = new URL("winners", import.meta.env.VITE_API_URL)
+    return async function fetchWinnersThunk(
+        dispatch: RacersStoreDispatch,
+        getState: typeof store.getState,
+    ) {
+        const url = new URL("winners", import.meta.env.VITE_API_URL)
+        url.searchParams.set(
+            "_page",
+            String(getState().cars.currentWinnersPage),
+        )
+        url.searchParams.set("_limit", String(getState().cars.winnersPerPage))
+        url.searchParams.set("_sort", getState().cars.sort)
+        url.searchParams.set("_order", getState().cars.order)
         try {
-            const res = await fetch(winnersUrl)
+            const res = await fetch(url)
             const data: Winner[] = await res.json()
 
             const winners = []

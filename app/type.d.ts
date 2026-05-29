@@ -21,3 +21,6 @@ export type Movement = {
 export type RacerStatus = "started" | "stopped"
 
 export type RacersStoreDispatch = typeof store.dispatch
+
+export type Sort = "id" | "wins" | "time"
+export type Order = "ASC" | "DESC"

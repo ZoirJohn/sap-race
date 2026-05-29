@@ -1,5 +1,5 @@
 import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit"
-import type { Movement, Racer, Winner } from "~/type"
+import type { Movement, Order, Racer, Sort, Winner } from "~/type"
 
 const cars = createSlice({
     name: "cars",
@@ -17,6 +17,8 @@ const cars = createSlice({
         isWinnerAnnounced: false,
         totalRacers: 0,
         totalWinners: 0,
+        sort: "wins" as Sort,
+        order: "DESC" as Order,
     },
     reducers: {
         setRacers: (state, action: { payload: Racer[]; type: string }) => {
@@ -55,6 +57,12 @@ const cars = createSlice({
         setCurrentWinnersPage: (state, action: { payload: number }) => {
             state.currentWinnersPage = action.payload
         },
+        setSortBy: (state, action: { payload: Sort }) => {
+            state.sort = action.payload
+        },
+        setOrderBy: (state, action: { payload: Order }) => {
+            state.order = action.payload
+        },
     },
 })
 export const {
@@ -69,6 +77,8 @@ export const {
     setTotalWinners,
     setCurrentRacersPage,
     setCurrentWinnersPage,
+    setOrderBy,
+    setSortBy,
 } = cars.actions
 
 export const store = configureStore({
