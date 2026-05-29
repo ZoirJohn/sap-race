@@ -66,7 +66,10 @@ export default function Garage(props: {
 
     return (
         <>
-            <Stack className="py-4 relative max-lg:overflow-hidden" gap={4}>
+            <Stack
+                className="py-4 relative max-lg:overflow-hidden h-[calc(100dvh-188px)] overflow-y-auto "
+                gap={4}
+            >
                 {props.racers.length ? (
                     props.racers.map((racer) => {
                         const data = props.movements.find(
@@ -77,7 +80,7 @@ export default function Garage(props: {
                             : 0
                         return (
                             <Col
-                                className="flex items-center gap-2 sm:gap-4"
+                                className="flex items-center gap-2 sm:gap-4 grow-0!"
                                 key={racer.id}
                             >
                                 <div className="flex flex-wrap gap-2 sm:max-w-31 max-w-23">

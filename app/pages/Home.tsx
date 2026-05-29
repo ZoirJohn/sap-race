@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react"
-import { Container, PageItem, Pagination } from "react-bootstrap"
+import { Button, Container, PageItem, Pagination } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import {
     deleteAllMovements,
     fetchAllMovements,
     fetchRacers,
+    generateRandomCars,
 } from "~/api/client"
 import Garage from "~/components/Garage"
 import Tools from "~/components/Tools"
@@ -66,7 +67,9 @@ export default function Home() {
         unDisableAll()
         dispatch(deleteAllMovements())
     }
-
+    const generateCars = async () => {
+        await dispatch(generateRandomCars())
+    }
     return (
         <section>
             <Container>
@@ -76,6 +79,7 @@ export default function Home() {
                     unDisableAll={unDisableAll}
                     startAllEngines={startAllEngines}
                     stopAllEngines={stopAllEngines}
+                    generateCars={generateCars}
                 />
                 <Garage
                     racers={racers}

@@ -18,3 +18,6 @@
     background-size: 148% ;
     z-index: 1;
 }
+::-webkit-scrollbar{
+	display: none;
+}

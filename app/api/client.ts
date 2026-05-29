@@ -338,3 +338,28 @@ export function deleteWinner(id: number) {
         }
     }
 }
+
+export function generateRandomCars() {
+    return async function generateRandomCarsThunk(
+        dispatch: RacersStoreDispatch,
+    ) {
+        const url = new URL("garage", import.meta.env.VITE_API_URL)
+        try {
+            for (let i = 0; i < 100; i++) {
+                await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name: i,
+                        color: "#000000",
+                    }),
+                })
+            }
+            dispatch(fetchRacers())
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
+    }
+}
