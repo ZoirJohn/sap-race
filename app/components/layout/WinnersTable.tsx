@@ -8,7 +8,10 @@ export default function WinnersTable(props: {
 }) {
     const data: (Winner & Racer)[] = props.winners.map((winner, idx) => ({
         ...winner,
-        ...props.racers.find((racer, idx) => racer.id === winner.id)!,
+        ...(props.racers.find((racer, idx) => racer.id === winner.id) || {
+            color: "",
+            name: "",
+        }),
     }))
     return (
         <Container>
@@ -27,10 +30,7 @@ export default function WinnersTable(props: {
                     >
                         <Col>{racerData.id}</Col>
                         <Col>
-                            <Car
-                                color={racerData.color}
-                                className="size-10!"
-                            />
+                            <Car color={racerData.color} className="size-10!" />
                         </Col>
                         <Col>{racerData.name}</Col>
                         <Col>{racerData.wins}</Col>

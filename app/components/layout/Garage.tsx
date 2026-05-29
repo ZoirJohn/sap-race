@@ -42,14 +42,19 @@ export default function Garage(props: {
     }
 
     useEffect(() => {
+        let timeout: number
         if (
             props.winnerAnnouncementTimeout !== -1 &&
             !props.isWinnerAnnounced
         ) {
-            setTimeout(() => {
-				setShow(true)
+            timeout = window.setTimeout(() => {
+                setShow(true)
                 dispatch(setIsWinnerAnnounced(true))
             }, props.winnerAnnouncementTimeout)
+        }
+
+        return () => {
+            clearTimeout(timeout)
         }
     }, [props.winnerAnnouncementTimeout])
 
@@ -146,7 +151,6 @@ export default function Garage(props: {
                         <div className="flex items-center flex-col justify-center">
                             <CarComponent
                                 color={props.winner.color}
-                                style={{}}
                             />
                             {props.winner.name}
                         </div>

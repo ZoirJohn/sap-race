@@ -10,12 +10,16 @@ export default function UpdateForm(props: { selected: number | undefined }) {
     const colorField = useRef<HTMLInputElement>(null)
     const nameField = useRef<HTMLInputElement>(null)
     function changeCar() {
-        if (props.selected) {
+        if (
+            props.selected &&
+            nameField.current?.value &&
+            colorField.current?.value
+        ) {
             dispatch(
                 updateCar(
                     props.selected,
-                    nameField.current?.value!,
-                    colorField.current?.value!,
+                    nameField.current?.value,
+                    colorField.current?.value,
                 ),
             )
         }

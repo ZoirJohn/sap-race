@@ -26,7 +26,8 @@ export default function Home() {
     ) as number
     const winner = useMemo(() => {
         return findWinnerCar(winnerId, racers)
-    }, [winnerId])
+    }, [winnerId,racers])
+	
     const winnerAnnouncementTimeout = useMemo(() => {
         return (
             movements

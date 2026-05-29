@@ -142,7 +142,7 @@ export function deleteAllMovements() {
             for (const mov of movements) {
                 const url = new URL("/engine", import.meta.env.VITE_API_URL)
                 url.searchParams.set("id", String(mov.id) as string)
-                url.searchParams.set("status", "started")
+                url.searchParams.set("status", "stopped")
                 const res = await fetch(url, { method: "PATCH" })
                 const data = await res.json()
             }
@@ -260,6 +260,10 @@ export function createWinner(id: number, time: number) {
             }
 
             dispatch(fetchWinners())
-        } catch (error) {}
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message))
+            }
+        }
     }
 }

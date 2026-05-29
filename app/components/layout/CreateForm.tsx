@@ -11,7 +11,7 @@ export default function CreateForm() {
     const nameField = useRef<HTMLInputElement>(null)
 	
     function generateCar() {
-        if (!!nameField.current?.value) {
+        if (nameField.current?.value) {
             dispatch(
                 createCar(
                     nameField.current?.value!,

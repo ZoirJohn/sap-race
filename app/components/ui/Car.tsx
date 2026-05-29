@@ -14,7 +14,9 @@ export default function Car(props: Car) {
             version="1.1"
             id="car"
             viewBox="0 0 612.001 612.001"
-            className={props.className + " sm:size-24 size-16"}
+            className={
+                (props.className ? props.className : "") + " sm:size-24 size-16"
+            }
             style={props.style}
         >
             <g>
