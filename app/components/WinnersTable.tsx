@@ -1,26 +1,70 @@
 import { Button, Col, Container, Row } from "react-bootstrap"
 import type { Order, Racer, Sort, Winner } from "~/type"
 import Car from "./ui/Car"
-import { useState } from "react"
 
 export default function WinnersTable(props: {
     winners: (Winner & Racer)[]
     sort: Sort
     order: Order
+    changeOrder: (order: Order) => void
+    changeSort: (sort: Sort) => void
 }) {
+    const handleSort = (name: Sort) => {
+        if (props.sort === name) {
+            if (props.order === "DESC") {
+                props.changeOrder("ASC")
+            } else {
+                props.changeOrder("DESC")
+            }
+        } else {
+            props.changeSort(name)
+        }
+    }
+
     return (
         <Container>
             <Row className="py-3 sm:text-2xl flex items-center">
-                <Col id={"id"}>
-                    <Button variant="outline-primary">#</Button>
+                <Col>
+                    <Button
+                        variant="outline-primary"
+                        onClick={() => handleSort("id")}
+                        className="flex! gap-1"
+                    >
+                        #{" "}
+                        {props.sort === "id"
+                            ? props.order === "DESC"
+                                ? "desc"
+                                : "asc"
+                            : null}
+                    </Button>
                 </Col>
                 <Col>Car</Col>
                 <Col>Name</Col>
-                <Col id={"wins"}>
-                    <Button variant="outline-primary">Wins</Button>
+                <Col>
+                    <Button
+                        variant="outline-primary"
+                        onClick={() => handleSort("wins")}
+                    >
+                        Wins{" "}
+                        {props.sort === "wins"
+                            ? props.order === "DESC"
+                                ? "desc"
+                                : "asc"
+                            : null}
+                    </Button>
                 </Col>
-                <Col id={"time"}>
-                    <Button variant="outline-primary">Time</Button>
+                <Col>
+                    <Button
+                        variant="outline-primary"
+                        onClick={() => handleSort("time")}
+                    >
+                        Time{" "}
+                        {props.sort === "time"
+                            ? props.order === "DESC"
+                                ? "desc"
+                                : "asc"
+                            : null}
+                    </Button>
                 </Col>
             </Row>
             {props.winners.map((winner) => {
