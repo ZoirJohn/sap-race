@@ -22,7 +22,7 @@ export default function WinnersTable(props: {
     }
 
     return (
-        <Container>
+        <Container className="h-[calc(100dvh-96px)]">
             <Row className="py-3 sm:text-2xl flex items-center">
                 <Col>
                     <Button
@@ -67,22 +67,29 @@ export default function WinnersTable(props: {
                     </Button>
                 </Col>
             </Row>
-            {props.winners.map((winner) => {
-                return (
-                    <Row
-                        className="sm:py-3 py-1 sm:text-xl items-center"
-                        key={winner.id}
-                    >
-                        <Col>{winner.id}</Col>
-                        <Col>
-                            <Car color={winner.color} className="size-10!" />
-                        </Col>
-                        <Col>{winner.name}</Col>
-                        <Col>{winner.wins}</Col>
-                        <Col>{winner.time}</Col>
-                    </Row>
-                )
-            })}
+            {props.winners.length > 0 ? (
+                props.winners.map((winner) => {
+                    return (
+                        <Row
+                            className="sm:py-3 py-1 sm:text-xl items-center"
+                            key={winner.id}
+                        >
+                            <Col>{winner.id}</Col>
+                            <Col>
+                                <Car
+                                    color={winner.color}
+                                    className="size-10!"
+                                />
+                            </Col>
+                            <Col>{winner.name}</Col>
+                            <Col>{winner.wins}</Col>
+                            <Col>{winner.time}</Col>
+                        </Row>
+                    )
+                })
+            ) : (
+                <Row className="justify-center text-2xl">No winners</Row>
+            )}
         </Container>
     )
 }

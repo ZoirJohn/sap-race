@@ -152,7 +152,7 @@ export default function Garage(props: {
                         )
                     })
                 ) : (
-                    <Col className="text-center text-2xl">No race today</Col>
+                    <Col className="text-center text-2xl">No race</Col>
                 )}
                 {props.racers.length ? (
                     <div className="right-0 max-sm:right-16 sm:w-20 w-10 h-[calc(100%-48px)] absolute top-6 checkered"></div>
