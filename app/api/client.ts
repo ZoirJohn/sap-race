@@ -18,12 +18,14 @@ import type {
 } from "~/type"
 import findWinnerMovement from "~/utils/findWinnerMovement"
 
+const BASE_URL = import.meta.env.VITE_API_URL || ""
+
 export function fetchRacers() {
     return async function fetchRacersThunk(
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("garage", import.meta.env.VITE_API_URL)
+        const url = new URL("garage", BASE_URL)
         url.searchParams.set("_page", String(getState().cars.currentRacersPage))
         url.searchParams.set("_limit", String(getState().cars.racersPerPage))
         try {
@@ -44,7 +46,7 @@ export function fetchRacers() {
 }
 
 export async function fetchRacer(id: number) {
-    const url = new URL("garage/" + id, import.meta.env.VITE_API_URL)
+    const url = new URL("garage/" + id, BASE_URL)
     try {
         const res = await fetch(url)
         const data = await res.json()
@@ -61,7 +63,7 @@ export function fetchWinners() {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("winners", import.meta.env.VITE_API_URL)
+        const url = new URL("winners", BASE_URL)
         url.searchParams.set(
             "_page",
             String(getState().cars.currentWinnersPage),
@@ -99,7 +101,7 @@ export function fetchMovement(id: number, status: RacerStatus) {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("engine", import.meta.env.VITE_API_URL)
+        const url = new URL("engine", BASE_URL)
         url.searchParams.set("id", String(id))
         url.searchParams.set("status", status)
         try {
@@ -137,7 +139,7 @@ export function fetchAllMovements() {
 
             const movements: Movement[] = []
             for (const id of notStarted) {
-                const url = new URL("engine", import.meta.env.VITE_API_URL)
+                const url = new URL("engine", BASE_URL)
                 url.searchParams.set("id", id as string)
                 url.searchParams.set("status", "started")
                 const res = await fetch(url, { method: "PATCH" })
@@ -166,7 +168,7 @@ export function deleteMovement(id: number, status: RacerStatus) {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("engine", import.meta.env.VITE_API_URL)
+        const url = new URL("engine", BASE_URL)
         url.searchParams.set("id", String(id))
         url.searchParams.set("status", status)
         try {
@@ -197,7 +199,7 @@ export function deleteAllMovements() {
             dispatch(setIsWinnerAnnounced(false))
             dispatch(setWinner(-1))
             for (const movement of movements) {
-                const url = new URL("engine", import.meta.env.VITE_API_URL)
+                const url = new URL("engine", BASE_URL)
                 url.searchParams.set("id", String(movement.id) as string)
                 url.searchParams.set("status", "stopped")
                 await fetch(url, { method: "PATCH" })
@@ -215,7 +217,7 @@ export function createCar(name: string, color: string) {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("garage", import.meta.env.VITE_API_URL)
+        const url = new URL("garage", BASE_URL)
         try {
             const res = await fetch(url, {
                 method: "POST",
@@ -239,7 +241,7 @@ export function updateCar(id: number, name: string, color: string) {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("garage/" + id, import.meta.env.VITE_API_URL)
+        const url = new URL("garage/" + id, BASE_URL)
         try {
             await fetch(url, {
                 method: "PUT",
@@ -262,7 +264,7 @@ export function deleteCar(id: number) {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("garage/" + id, import.meta.env.VITE_API_URL)
+        const url = new URL("garage/" + id, BASE_URL)
         try {
             await fetch(url, {
                 method: "DELETE",
@@ -289,7 +291,7 @@ export function createWinner(id: number, time: number) {
             if (winner) {
                 const url = new URL(
                     "winners/" + id,
-                    import.meta.env.VITE_API_URL,
+                    BASE_URL,
                 )
 
                 await fetch(url, {
@@ -301,7 +303,7 @@ export function createWinner(id: number, time: number) {
                     }),
                 })
             } else {
-                const url = new URL("winners", import.meta.env.VITE_API_URL)
+                const url = new URL("winners", BASE_URL)
 
                 await fetch(url, {
                     headers: { "Content-Type": "application/json" },
@@ -327,7 +329,7 @@ export function deleteWinner(id: number) {
         dispatch: RacersStoreDispatch,
         getState: typeof store.getState,
     ) {
-        const url = new URL("winners/" + id, import.meta.env.VITE_API_URL)
+        const url = new URL("winners/" + id, BASE_URL)
         try {
             await fetch(url, { method: "DELETE" })
             dispatch(fetchWinners())
@@ -343,7 +345,7 @@ export function generateRandomCars() {
     return async function generateRandomCarsThunk(
         dispatch: RacersStoreDispatch,
     ) {
-        const url = new URL("garage", import.meta.env.VITE_API_URL)
+        const url = new URL("garage", BASE_URL)
         try {
             for (let i = 0; i < 100; i++) {
                 await fetch(url, {
