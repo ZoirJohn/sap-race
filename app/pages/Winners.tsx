@@ -46,7 +46,7 @@ export default function Winners() {
     return (
         <section>
             <Container>
-				<h1 className="mb-0 mt-2">Winners</h1>
+                <h1 className="mb-0 mt-2">Winners</h1>
                 <WinnersTable
                     winners={winners}
                     order={order}

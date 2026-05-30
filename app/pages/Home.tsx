@@ -73,7 +73,7 @@ export default function Home() {
     return (
         <section>
             <Container>
-				<h1 className="mt-2 mb-0">Garage</h1>
+                <h1 className="mt-2 mb-0">Garage</h1>
                 <Tools
                     selected={selected}
                     disableAll={disableAll}

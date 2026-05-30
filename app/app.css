@@ -15,9 +15,9 @@
 }
 .checkered {
     background-image: url("./assets/checkered.svg");
-    background-size: 148% ;
+    background-size: 148%;
     z-index: 1;
 }
-::-webkit-scrollbar{
-	display: none;
+::-webkit-scrollbar {
+    display: none;
 }

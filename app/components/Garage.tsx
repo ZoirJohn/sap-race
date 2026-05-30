@@ -66,10 +66,7 @@ export default function Garage(props: {
 
     return (
         <>
-            <Stack
-                className="py-4 relative"
-                gap={4}
-            >
+            <Stack className="py-4 relative" gap={4}>
                 {props.racers.length ? (
                     props.racers.map((racer) => {
                         const data = props.movements.find(
