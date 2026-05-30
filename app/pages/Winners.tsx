@@ -1,8 +1,13 @@
-import { Container } from "react-bootstrap"
+import { Container, PageItem, Pagination } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchWinners } from "~/api/client"
 import WinnersTable from "~/components/WinnersTable"
-import { setOrderBy, setSortBy, type store } from "~/store/store"
+import {
+    setCurrentWinnersPage,
+    setOrderBy,
+    setSortBy,
+    type store,
+} from "~/store/store"
 import type { Order, Racer, RacersStoreDispatch, Sort, Winner } from "~/type"
 
 export default function Winners() {
@@ -13,8 +18,14 @@ export default function Winners() {
     ) as (Winner & Racer)[]
 
     const totalWinners = useSelector<ReturnType<typeof store.getState>>(
-        (state) => state.cars.totalRacers,
-    )
+        (state) => state.cars.totalWinners,
+    ) as number
+    const winnersPerPage = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.winnersPerPage,
+    ) as number
+    const currentWinnersPage = useSelector<ReturnType<typeof store.getState>>(
+        (state) => state.cars.currentWinnersPage,
+    ) as number
 
     const sort = useSelector<ReturnType<typeof store.getState>>(
         (state) => state.cars.sort,
@@ -42,6 +53,22 @@ export default function Winners() {
                     changeOrder={changeOrder}
                     changeSort={changeSort}
                 />
+                <Pagination className="flex-wrap">
+                    {new Array(Math.ceil(totalWinners / winnersPerPage))
+                        .fill(0)
+                        .map((_, i) => (
+                            <PageItem
+                                active={i + 1 === currentWinnersPage}
+                                key={i}
+                                onClick={() => {
+                                    dispatch(setCurrentWinnersPage(i + 1))
+                                    dispatch(fetchWinners())
+                                }}
+                            >
+                                {i + 1}
+                            </PageItem>
+                        ))}
+                </Pagination>
             </Container>
         </section>
     )

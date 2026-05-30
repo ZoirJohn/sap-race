@@ -93,7 +93,7 @@ export default function Home() {
                     winner={winner}
                     isWinnerAnnounced={isWinnerAnnounced}
                 />
-                <Pagination>
+                <Pagination className="flex-wrap">
                     {new Array(Math.ceil(totalRacers / racersPerPage))
                         .fill(0)
                         .map((_, i) => (

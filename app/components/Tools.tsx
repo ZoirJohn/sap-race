@@ -18,7 +18,7 @@ export default function Tools(props: {
     const [generationDisabled, setGenerationDisabled] = useState(false)
     return (
         <Stack
-            className="top-0 sticky md:flex-row! justify-between py-1 md:py-4! z-2"
+            className="top-0 sticky md:flex-row! justify-between py-1 md:py-4! z-3 bg-white"
             gap={2}
         >
             <CreateForm />
