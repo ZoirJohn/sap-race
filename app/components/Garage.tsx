@@ -67,7 +67,7 @@ export default function Garage(props: {
     return (
         <>
             <Stack
-                className="py-4 relative max-lg:overflow-hidden overflow-y-auto "
+                className="py-4 relative"
                 gap={4}
             >
                 {props.racers.length ? (

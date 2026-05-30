@@ -1,3 +1,4 @@
+import { brands, models } from "~/const"
 import {
     setError,
     setIsWinnerAnnounced,
@@ -289,10 +290,7 @@ export function createWinner(id: number, time: number) {
                 (rac) => rac.id === Number(id),
             )
             if (winner) {
-                const url = new URL(
-                    "winners/" + id,
-                    BASE_URL,
-                )
+                const url = new URL("winners/" + id, BASE_URL)
 
                 await fetch(url, {
                     headers: { "Content-Type": "application/json" },
@@ -348,11 +346,15 @@ export function generateRandomCars() {
         const url = new URL("garage", BASE_URL)
         try {
             for (let i = 0; i < 100; i++) {
+                const brand = brands[Math.floor(Math.random() * brands.length)]
+
+                const model = models[Math.floor(Math.random() * models.length)]
+
                 await fetch(url, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        name: i,
+                        name: brand + " " + model,
                         color: "#000000",
                     }),
                 })

@@ -22,7 +22,7 @@ export default function WinnersTable(props: {
     }
 
     return (
-        <Container className="h-[calc(100dvh-96px)]">
+        <Container>
             <Row className="py-3 sm:text-2xl flex items-center">
                 <Col>
                     <Button
